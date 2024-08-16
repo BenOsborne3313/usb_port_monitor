@@ -1,0 +1,22 @@
+[project]
+name = "usb_port_monitor"
+description = "A simple USB port monitor"
+version = "0.0.0"
+authors = [
+    { name = "Ben Osborne", email = "beno3313@gmail.com" }
+]
+dependencies = [
+    "pyserial",
+    "PySide6"
+]
+
+[project.optional-dependencies]
+dev = [
+    "tox",
+    "pre-commit",
+    "bump2version"
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
