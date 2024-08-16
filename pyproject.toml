@@ -18,7 +18,7 @@ dev = [
 ]
 
 [project.scripts]
-usb_port_monitor = "usb_port_monitor.__main__:main"
+usb_port_monitor = "usb_port_monitor:main.main"
 
 [build-system]
 requires = ["setuptools"]
