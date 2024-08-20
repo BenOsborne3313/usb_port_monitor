@@ -5,7 +5,7 @@ on: [push]
 defaults:
   run:
     shell: bash
-    working-directory: src
+    working-directory: usb_port_monitor
 
 jobs:
   Build:
