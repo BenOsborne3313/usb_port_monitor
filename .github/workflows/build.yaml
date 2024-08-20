@@ -41,5 +41,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: USB_M-${{ matrix.os }}
-          path: USB_M/dist/USB_M-${{ matrix.os }}*
+          path: ./dist/USB_M-${{ matrix.os }}*
           if-no-files-found: error
