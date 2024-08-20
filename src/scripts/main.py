@@ -2,6 +2,7 @@ from PySide6 import QtCore, QtWidgets
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QMainWindow
+
 import sys
 from usb_port_monitor.gui.gui_main import MainWindow
 

@@ -2,24 +2,40 @@ from PySide6 import QtCore, QtWidgets
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QMainWindow
+from PySide6.QtGui import QIcon
 import serial.tools.list_ports
 import usb_port_monitor.gui.theme.make_theme as make_theme
 from usb_port_monitor.gui.ui_gui_main import Ui_MainWindow
 from usb_port_monitor.com_port_funcs import print_port
 import sys
 import os
+import markdown
+
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
+
         super().__init__(parent=parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle("USB Port Monitor")
         self.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint, True)
+
         dir = os.path.abspath(__file__)
+        
         them_path = os.path.join(os.path.dirname(dir), "assets/theme.json")
         load_pallet = make_theme.load_theme_from_json(them_path)
         self.setPalette(load_pallet)
+
+        icon_path = os.path.join(os.path.dirname(dir), "assets/usb-symbol-icon.jpg")
+        self.setWindowIcon(QIcon(icon_path))
+    
+        readme_path = os.path.join(os.path.dirname(dir), r"../../../README.md")
+        with open(readme_path, "r") as f:
+            readme = f.read()
+        html = markdown.markdown(readme)
+        self.ui.textEdit.setHtml(html)
+        self.ui.textEdit.setReadOnly(True)
 
         self.populate_ports_dict()
         self.com_port_timer = QtCore.QTimer()

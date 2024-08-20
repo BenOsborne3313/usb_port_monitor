@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QListWidget, QListWidgetItem, QMainWindow,
-    QPushButton, QSizePolicy, QTabWidget, QVBoxLayout,
-    QWidget)
+    QPushButton, QSizePolicy, QTabWidget, QTextEdit,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -52,6 +52,13 @@ class Ui_MainWindow(object):
         self.main_tabs.addTab(self.ports_tab, "")
         self.readme_tab = QWidget()
         self.readme_tab.setObjectName(u"readme_tab")
+        self.verticalLayout_3 = QVBoxLayout(self.readme_tab)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.textEdit = QTextEdit(self.readme_tab)
+        self.textEdit.setObjectName(u"textEdit")
+
+        self.verticalLayout_3.addWidget(self.textEdit)
+
         self.main_tabs.addTab(self.readme_tab, "")
 
         self.verticalLayout.addWidget(self.main_tabs)
@@ -60,7 +67,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.main_tabs.setCurrentIndex(0)
+        self.main_tabs.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
