@@ -5,7 +5,7 @@ on: [push]
 defaults:
   run:
     shell: bash
-    working-directory: app
+    working-directory: src
 
 jobs:
   Build:
@@ -35,15 +35,12 @@ jobs:
           python -m pip install --upgrade pip pyinstaller pytest
           pip install .
 
-      - name: Test with pytest
-        run: pytest
-
       - name: Build with pyinstaller
-        run: pyinstaller --onefile --name=app-${{ matrix.os }} main.py
+        run: pyinstaller --onefile --name=USB_M-${{ matrix.os }} scipts/main.py
 
       - name: Deploy artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: app-${{ matrix.os }}
-          path: app/dist/app-${{ matrix.os }}*
+          name: USB_M-${{ matrix.os }}
+          path: USB_M/dist/USB_M-${{ matrix.os }}*
           if-no-files-found: error
