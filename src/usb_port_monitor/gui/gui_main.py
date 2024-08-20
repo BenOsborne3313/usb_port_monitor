@@ -6,7 +6,7 @@ from PySide6.QtGui import QIcon
 import serial.tools.list_ports
 import usb_port_monitor.gui.theme.make_theme as make_theme
 from usb_port_monitor.gui.ui_gui_main import Ui_MainWindow
-from usb_port_monitor.com_port_funcs import print_port
+from usb_port_monitor.com_port_funcs import print_port, is_port_in_use
 import sys
 import os
 import markdown
@@ -23,11 +23,11 @@ class MainWindow(QMainWindow):
 
         dir = os.path.abspath(__file__)
         
-        them_path = os.path.join(os.path.dirname(dir), "assets/theme.json")
+        them_path = os.path.join(os.path.dirname(dir), r"assets/theme.json")
         load_pallet = make_theme.load_theme_from_json(them_path)
         self.setPalette(load_pallet)
 
-        icon_path = os.path.join(os.path.dirname(dir), "assets/usb-symbol-icon.jpg")
+        icon_path = os.path.join(os.path.dirname(dir), r"assets/usb-symbol-icon.jpg")
         self.setWindowIcon(QIcon(icon_path))
     
         readme_path = os.path.join(os.path.dirname(dir), r"../../../README.md")
@@ -72,6 +72,8 @@ class MainWindow(QMainWindow):
             if port.device in ports_added:
                 item = QtWidgets.QListWidgetItem(f"{port.device} - {port.description}")
                 #set item according to palette
+                if is_port_in_use(port.device):
+                    item.setForeground(QtCore.Qt.green)
                 self.ui.port_list.insertItem(0, item)
                 self.ports_dict[port.device] = port
                 print_port(port)
@@ -89,6 +91,8 @@ class MainWindow(QMainWindow):
                     index = self.ui.port_list.row(item)
                     item = self.ui.port_list.takeItem(index)
                     item =  QtWidgets.QListWidgetItem(f"{port.device} - {port.description}")
+                    if is_port_in_use(port.device):
+                        item.setForeground(QtCore.Qt.green)
                     self.ui.port_list.insertItem(index, item)
 
 

@@ -68,10 +68,12 @@ if __name__ == "__main__":
     white = QColor(255, 255, 255)
     visua_blue = QColor(0, 117, 183)
     black = QColor(0, 0, 0)
+    visua_dark_blue = QColor(0, 80, 125)
 
     grey = Color(grey).to_json()
     white = Color(white).to_json()
     visua_blue = Color(visua_blue).to_json()
+    visua_dark_blue = Color(visua_dark_blue).to_json()
     black = Color(black).to_json()
 
     theme_dict = {
@@ -86,7 +88,7 @@ if __name__ == "__main__":
         "ButtonText": visua_blue,
         "BrightText": visua_blue,
         "Link": visua_blue,
-        "Highlight": visua_blue,
+        "Highlight": visua_dark_blue,
         "HighlightedText": black,
     }
     dir = os.path.abspath(__file__)

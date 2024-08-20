@@ -30,5 +30,15 @@ def print_port(port):
         print(f"Interface: {port.interface}")
         print("-" * 40)
 
+def is_port_in_use(port_name):
+    try:
+        # Attempt to open the port in a non-blocking mode
+        with serial.Serial(port_name, timeout=0.1) as ser:
+            # If no exception, the port is not in use
+            return False
+    except (OSError, serial.SerialException):
+        # If an exception occurs, the port is in use
+        return True
+
 if __name__ == "__main__":
     print_list_com_ports()
