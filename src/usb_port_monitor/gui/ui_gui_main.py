@@ -39,10 +39,10 @@ class Ui_MainWindow(object):
         self.ports_tab.setObjectName(u"ports_tab")
         self.verticalLayout_2 = QVBoxLayout(self.ports_tab)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.scan_toggle_button = QPushButton(self.ports_tab)
-        self.scan_toggle_button.setObjectName(u"scan_toggle_button")
+        self.clear_button = QPushButton(self.ports_tab)
+        self.clear_button.setObjectName(u"clear_button")
 
-        self.verticalLayout_2.addWidget(self.scan_toggle_button)
+        self.verticalLayout_2.addWidget(self.clear_button)
 
         self.port_list = QListWidget(self.ports_tab)
         self.port_list.setObjectName(u"port_list")
@@ -68,7 +68,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.scan_toggle_button.setText(QCoreApplication.translate("MainWindow", u"Scan", None))
+        self.clear_button.setText(QCoreApplication.translate("MainWindow", u"Clear", None))
         self.main_tabs.setTabText(self.main_tabs.indexOf(self.ports_tab), QCoreApplication.translate("MainWindow", u"Ports", None))
         self.main_tabs.setTabText(self.main_tabs.indexOf(self.readme_tab), QCoreApplication.translate("MainWindow", u"Readme", None))
     # retranslateUi

@@ -32,9 +32,9 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QPushButton" name="scan_toggle_button">
+         <widget class="QPushButton" name="clear_button">
           <property name="text">
-           <string>Scan</string>
+           <string>Clear</string>
           </property>
          </widget>
         </item>

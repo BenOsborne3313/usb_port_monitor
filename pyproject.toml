@@ -2,9 +2,11 @@
 name = "usb_port_monitor"
 description = "A simple USB port monitor"
 version = "0.0.0"
+requires-python = ">=3.7"
 authors = [
     { name = "Ben Osborne", email = "beno3313@gmail.com" }
 ]
+
 dependencies = [
     "pyserial",
     "PySide6",
@@ -19,7 +21,8 @@ dev = [
 ]
 
 [project.scripts]
-usb_port_monitor = "usb_port_monitor:main.main"
+usb_port_monitor = "scripts:main.main"
+
 
 [build-system]
 requires = ["setuptools"]
