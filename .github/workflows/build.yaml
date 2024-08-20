@@ -35,7 +35,7 @@ jobs:
           pip install .
 
       - name: Build with pyinstaller
-        run: pyinstaller --onefile --name=USB_M-${{ matrix.os }} ./src/scipts/main.py
+        run: pyinstaller --onefile --name=USB_M-${{ matrix.os }} ./src/scripts/main.py
 
       - name: Deploy artifacts
         uses: actions/upload-artifact@v2
