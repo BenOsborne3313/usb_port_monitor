@@ -5,6 +5,9 @@ from PySide6.QtWidgets import QMainWindow
 
 import sys
 from usb_port_monitor.gui.gui_main import MainWindow
+import multiprocessing
+
+multiprocessing.freeze_support()
 
 def main():
     print("USB Port Monitor")

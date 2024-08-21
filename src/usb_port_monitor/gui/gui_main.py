@@ -8,10 +8,14 @@ import usb_port_monitor.gui.theme.make_theme as make_theme
 from usb_port_monitor.gui.ui_gui_main import Ui_MainWindow
 from usb_port_monitor.com_port_funcs import print_port, is_port_in_use
 from multiprocessing import Queue, Process
+import multiprocessing
 import time
 import sys
 import os
 import markdown
+
+multiprocessing.freeze_support()
+
 
 def resource(relative_path):
     base_path = getattr(
