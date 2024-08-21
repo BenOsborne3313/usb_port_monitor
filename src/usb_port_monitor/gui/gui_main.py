@@ -7,6 +7,8 @@ import serial.tools.list_ports
 import usb_port_monitor.gui.theme.make_theme as make_theme
 from usb_port_monitor.gui.ui_gui_main import Ui_MainWindow
 from usb_port_monitor.com_port_funcs import print_port, is_port_in_use
+from multiprocessing import Queue, Process
+import time
 import sys
 import os
 import markdown
@@ -17,6 +19,24 @@ def resource(relative_path):
         '_MEIPASS',
         os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
+
+def ports_data_collection_process(queue):
+    while True:
+        attemp_get_ports_data(queue)
+        time.sleep(0.1)
+
+def attemp_get_ports_data(queue):
+    if queue.full():
+        return
+    
+    ports = serial.tools.list_ports.comports()
+
+    ports_dict = {}
+
+    for port in ports:
+        ports_dict[port.device] = is_port_in_use(port.device)
+
+    queue.put(ports_dict)
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -49,25 +69,36 @@ class MainWindow(QMainWindow):
         self.ui.textEdit.setHtml(html)
         self.ui.textEdit.setReadOnly(True)
 
+        self.ports_dict_queue = Queue(maxsize=10)
+        self.ports_in_use_dict = {}
+        attemp_get_ports_data(self.ports_dict_queue)
+
         self.populate_ports_dict()
+        #start the process to get the ports data
+        self.process = Process(target=ports_data_collection_process, args=(self.ports_dict_queue,))
+        self.process.daemon = True
+        self.process.start()
         self.com_port_timer = QtCore.QTimer()
         self.com_port_timer.timeout.connect(self.update_ports_list)
         self.com_port_timer.start(100)
 
         self.ui.clear_button.clicked.connect(self.clear_ports_list)
-
+            
     def clear_ports_list(self):
         self.ui.port_list.clear()
         self.populate_ports_dict = ()
         self.ports_dict = {}
-
 
     def update_ports_list(self):
         #we want to display the most recently connected ports at the top of the list
         # any disconnected ports we will set the text color to red
         #insert the last item at the top of the list
         
+        if not self.ports_dict_queue.empty():
+            self.ports_in_use_dict = self.ports_dict_queue.get()
+        
         ports = serial.tools.list_ports.comports()
+        
 
         ports_removed = set(self.ports_dict.keys()) - set([port.device for port in ports])
         ports_added = set([port.device for port in ports]) - set(self.ports_dict.keys())
@@ -84,7 +115,7 @@ class MainWindow(QMainWindow):
             if port.device in ports_added:
                 item = QtWidgets.QListWidgetItem(f"{port.device} - {port.description}")
                 #set item according to palette
-                if is_port_in_use(port.device):
+                if port.device in self.ports_in_use_dict.keys() and self.ports_in_use_dict[port.device]:
                     item.setForeground(QtCore.Qt.green)
                 self.ui.port_list.insertItem(0, item)
                 self.ports_dict[port.device] = port
@@ -103,7 +134,7 @@ class MainWindow(QMainWindow):
                     index = self.ui.port_list.row(item)
                     item = self.ui.port_list.takeItem(index)
                     item =  QtWidgets.QListWidgetItem(f"{port.device} - {port.description}")
-                    if is_port_in_use(port.device):
+                    if port.device in self.ports_in_use_dict.keys() and self.ports_in_use_dict[port.device]:
                         item.setForeground(QtCore.Qt.green)
                     self.ui.port_list.insertItem(index, item)
 
