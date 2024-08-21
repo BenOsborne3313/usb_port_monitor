@@ -36,7 +36,13 @@ class MainWindow(QMainWindow):
         icon_path = resource("assets/usb-symbol-icon.jpg")
         self.setWindowIcon(QIcon(icon_path))
 
-        readme_path = resource(r"../../../README.md")    
+        #need some special sauce since it is in the base folder...
+        if hasattr(sys, '_MEIPASS'):
+            #we are bundled
+            readme_path = resource(r"README.md")
+        else:
+            readme_path = resource(r"../../../README.md")
+
         with open(readme_path, "r") as f:
             readme = f.read()
         html = markdown.markdown(readme)
