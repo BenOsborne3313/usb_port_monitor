@@ -11,6 +11,12 @@ import sys
 import os
 import markdown
 
+def resource(relative_path):
+    base_path = getattr(
+        sys,
+        '_MEIPASS',
+        os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -21,16 +27,16 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("USB Port Monitor")
         self.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint, True)
 
-        dir = os.path.abspath(__file__)
         
-        them_path = os.path.join(os.path.dirname(dir), r"assets/theme.json")
+        them_path = resource("assets/theme.json")
+        
         load_pallet = make_theme.load_theme_from_json(them_path)
         self.setPalette(load_pallet)
 
-        icon_path = os.path.join(os.path.dirname(dir), r"assets/usb-symbol-icon.jpg")
+        icon_path = resource("assets/usb-symbol-icon.jpg")
         self.setWindowIcon(QIcon(icon_path))
-    
-        readme_path = os.path.join(os.path.dirname(dir), r"../../../README.md")
+
+        readme_path = resource(r"../../../README.md")    
         with open(readme_path, "r") as f:
             readme = f.read()
         html = markdown.markdown(readme)

@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from PySide6.QtGui import QPalette, QColor 
 
 #simple class for storing rgba values

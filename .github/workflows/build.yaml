@@ -35,7 +35,7 @@ jobs:
           pip install .
 
       - name: Build with pyinstaller
-        run: pyinstaller --onefile --name=USB_M-${{ matrix.os }} --add-data "src/usb_port_monitor/gui/assets:src/usb_port_monitor/gui/assets" ./src/scripts/main.py
+        run: pyinstaller --onefile --name=USB_M-${{ matrix.os }} --add-data "src/usb_port_monitor/gui/assets:assets" ./src/usb_port_monitor/gui/main.py
 
       - name: Deploy artifacts
         uses: actions/upload-artifact@v3
