@@ -14,7 +14,6 @@ import sys
 import os
 import markdown
 
-multiprocessing.freeze_support()
 
 
 def resource(relative_path):
